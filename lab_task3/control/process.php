@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 
 if(isset($_REQUEST["submit"]))
 {
@@ -21,6 +21,8 @@ if(empty($_REQUEST["fname"]) && strlen($_REQUEST["fname"])<4)
 
 else
 {
+    $_SESSION["name"]=$name;
+    
     echo " <br> Your first name is ".$_REQUEST["fname"];
 }
    
