@@ -1,0 +1,86 @@
+<?php
+session_start();
+$hinfo="";
+if(isset($_REQUEST["add"]))
+{
+
+
+$hname=$_REQUEST["hname"];
+$hloc=$_REQUEST["hloc"];
+$hrating=$_REQUEST["hrating"];
+
+
+
+if(empty($_REQUEST["hname"]))
+{
+    echo "Please enter a Hotel name. <br>";
+  
+}
+
+
+else
+{
+    
+    echo " <br> Hotel name is ".$_REQUEST["hname"];
+}
+
+if(empty($_REQUEST["hloc"]))
+{
+    echo "Please enter the Hotel location. <br>";
+  
+}
+
+
+else
+{
+    $_SESSION["hloc"]=$hloc;
+    
+    echo " <br> Hotel location is ".$_REQUEST["hloc"];
+}
+   
+
+if(empty($_REQUEST["hrating"]))
+{
+    echo "Please enter the Hotel's current rating. <br>";
+  
+}
+
+
+else
+{
+    $_SESSION["hrating"]=$hrating;
+    
+    echo " <br> Hotel's current rating is ".$_REQUEST["hrating"];
+}
+
+echo $_FILES["hlicense"]["name"];
+if(move_uploaded_file($_FILES["hlicense"] ["tmp_name"],"../uploads/hlincense.pdf"))
+{
+    echo " file uploaded";
+}
+else
+echo "not";
+}
+
+echo "<br>";
+
+$hinfo=array(
+    'hname'=> $hname,
+    'hlocation'=>$hloc,
+    'hrating'=>$hrating,
+    'file'=>$_FILES["hlicense"]["name"]
+  
+);
+
+$existingdata = file_get_contents('../data/addhotel.json');
+$tempJSONdata = json_decode($existingdata);
+$tempJSONdata[] =$hinfo;
+
+$jsondata=json_encode($tempJSONdata,JSON_PRETTY_PRINT);
+if(file_put_contents("../data/addhotel.json",$jsondata))
+{
+    echo "<br>data saved";
+}
+
+
+?>
